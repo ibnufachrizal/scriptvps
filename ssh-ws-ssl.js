@@ -33,8 +33,7 @@ for(c = 0; c < process.argv.length; c++) {
 }
 function gcollector() {
     if(!global.gc && gcwarn) {
-        console.log("[WARNING] Garbage Collector isn't enabled! Memory 
-leaks may occur.");
+        console.log("[WARNING] Garbage Collector isn't enabled! Memory leaks may occur.");
         gcwarn = false;
         return;
     } else if(global.gc) {
@@ -56,16 +55,14 @@ setInterval(gcollector, 1000);
 const server = net.createServer();
 server.on('connection', function(socket) {
     var packetCount = 0;
+    var anu = "Script By @kuotavpn";
     //var handshakeMade = false;
-    socket.write("HTTP/1.1 101 Autoscript By 
-t.me/kuotavpn\r\nContent-Length: 1048576000000\r\n\r\n", function(err) {
+    socket.write("HTTP/1.1 101 " + anu.fontcolor("green") + "\r\nContent-Length: 1048576000000\r\n\r\n", function(err) {
         if(err) {
-            console.log("[SWRITE] Failed to write response to " + 
-socket.remoteAddress + ":" + socket.remotePort + ", error: " + err);
+            console.log("[SWRITE] Failed to write response to " + socket.remoteAddress + ":" + socket.remotePort + ", error: " + err);
         }
     });
-    console.log("[INFO] Connection received from " + socket.remoteAddress 
-+ ":" + socket.remotePort);
+    console.log("[INFO] Connection received from " + socket.remoteAddress + ":" + socket.remotePort);
     var conn = net.createConnection({host: dhost, port: dport});
     socket.on('data', function(data) {
         //pipe sucks
@@ -76,8 +73,7 @@ socket.remoteAddress + ":" + socket.remotePort + ", error: " + err);
             //console.log("---c2");
             conn.write(data, function(err) {
                 if(err) {
-                    console.log("[EWRITE] Failed to write to external 
-socket! - " + err);
+                    console.log("[EWRITE] Failed to write to external socket! - " + err);
                 }
             });
         }
@@ -91,20 +87,17 @@ socket! - " + err);
         //pipe sucks x2
         socket.write(data, function(err) {
             if(err) {
-                console.log("[SWRITE2] Failed to write response to " + 
-socket.remoteAddress + ":" + socket.remotePort + ", error: " + err);
+                console.log("[SWRITE2] Failed to write response to " + socket.remoteAddress + ":" + socket.remotePort + ", error: " + err);
             }
         });
     });
     socket.once('data', function(data) {
         /*
-        * Nota para mas tarde, resolver que diferencia hay entre .on y 
-.once
+        * Nota para mas tarde, resolver que diferencia hay entre .on y .once
         */
     });
     socket.on('error', function(error) {
-        console.log("[SOCKET] read " + error + " from " + 
-socket.remoteAddress + ":" + socket.remotePort);
+        console.log("[SOCKET] read " + error + " from " + socket.remoteAddress + ":" + socket.remotePort);
         conn.destroy();
     });
     conn.on('error', function(error) {
@@ -112,8 +105,7 @@ socket.remoteAddress + ":" + socket.remotePort);
         socket.destroy();
     });
     socket.on('close', function() {
-        console.log("[INFO] Connection terminated for " + 
-socket.remoteAddress + ":" + socket.remotePort);
+        console.log("[INFO] Connection terminated for " + socket.remoteAddress + ":" + socket.remotePort);
         conn.destroy();
     });
 });
@@ -125,6 +117,5 @@ server.on("close", function() {
 });
 server.listen(mainPort, function(){
     console.log("[INFO] Server started on port: " + mainPort);
-    console.log("[INFO] Redirecting requests to: " + dhost + " at port " + 
-dport);
+    console.log("[INFO] Redirecting requests to: " + dhost + " at port " + dport);
 });
